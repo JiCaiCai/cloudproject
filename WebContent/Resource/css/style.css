@@ -185,3 +185,21 @@
 .ca-nav span:hover{
 	opacity:1.0;
 }
+
+.bar {
+    width: 150px;
+    height: 150px;
+    -webkit-border-radius: 7.5em;
+    -moz-border-radius: 7.5em;
+    border-radius: 7.5em;
+    margin-right: 2px;
+    position: absolute;
+}
+#shapeblue {
+    background: #0063dc;
+    z-index: 1;
+}
+#shapepink {
+    background: #ff0084;
+    z-index: 0;
+}

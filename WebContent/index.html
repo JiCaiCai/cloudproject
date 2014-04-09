@@ -59,6 +59,12 @@
                         <div id="uploadInf" class="upload_inf"></div>
                     </div>
 			    </form>  
+			    
+			    <div id="loading">
+				    <div id="shapeblue" class="bar"></div>
+					<div id="shapepink" class="bar"></div>
+			    </div>
+			    
 			    <!-- use to show the result of the faces -->
 			    <iframe name="frm_dealer" id="face_result" style="display:none" onload="onIFrameLoaded(this);"></iframe>
 			    
@@ -90,27 +96,77 @@
 <script type="text/javascript" src="./Resource/js/jquery.contentcarousel.js"></script>
 
 <script type="text/javascript">
-
+	var playAnimate;
+	$(function() {
+	    var wwidth = $(window).width();
+	    var bluewidth = $("#shapeblue").width();
+	    $("#shapeblue").css("left", (wwidth/2) - bluewidth);
+	
+	    var bluepos = $("#shapeblue").position();
+	    var movex = $("#shapeblue").width() + 4;
+	    $("#shapepink").css("left", bluepos.left + movex);
+	    $("#loading").hide();
+	    
+	    function moveleft(el) {
+	        $(el).animate({
+	            left: '+='+movex
+	        }, 800, function() {
+	            $(el).css("z-index", "5");
+	        });
+	    }
+	
+	    function moveright(el) {
+	        $(el).animate({
+	            left: '-='+movex
+	        }, 800, function() {
+	            $(el).css("z-index", "10");
+	        });
+	    }
+	
+	    function playAnimation() {
+	        moveleft("#shapeblue");
+	        moveright("#shapeblue");
+	        moveright("#shapepink");
+	        moveleft("#shapepink");
+	    }
+	
+	    $("#fileSubmit").click(function() {
+	    	$("#loading").show();
+	    	playAnimate = setInterval(playAnimation, 800);
+	    	
+	    	// send request
+	    	 $("#uploadForm").submit();
+	    	
+	        return false;
+	    });
+	});
+	
 	$(document).ready(function(){
 		$('#ca-container').contentcarousel();
 	});
-
+	
 	function onIFrameLoaded(iframe) {
-	    var doc = iframe.contentWindow.document;
-	    var html = doc.body.innerHTML;
-	    
-	    // json parser, convert to js array
-	    imagePaths = $.parseJSON(html);
-	    // show the images
-	    for (var i = 0; i < imagePaths.length; i++) {
-	    	// image name, image path, image description
-	    	addImageItem("Blue Sky", imagePaths[i], "All man will die!");
-	    }
-	    $("#ca-container").fadeIn();
+		setTimeout(function(){
+			var doc = iframe.contentWindow.document;
+		    var html = doc.body.innerHTML;
+		    
+		    // hide the animation
+		    $("#loading").hide();
+		    clearInterval(playAnimate);
+		    
+		    // json parser, convert to js array
+		    imagePaths = $.parseJSON(html);
+		    // show the images
+		    for (var i = 0; i < imagePaths.length; i++) {
+		    	// image name, image path, image description
+		    	addImageItem("Blue Sky", imagePaths[i], "All man will die!");
+		    }
+		    $("#ca-container").fadeIn();
+		},3000);
 	}
 	
 	function addImageItem(imageName, imagePath, imageDes) {
-		var imageHtml = "<div class=\"ca-item\"><div class=\"ca-item-main\"><div class=\"ca-icon\"><img src=\"images/" + imagePath + "\" /></div><h3>"+ imageName +"</h3><h4><span class=\"ca-quote\">&ldquo;</span><span>" + imageDes + "</span></h4></div></div>";
+		var imageHtml = "<div class=\"ca-item\"><div class=\"ca-item-main\"><div class=\"ca-icon\"><img src=\"" + imagePath + "\" /></div><h3>"+ imageName +"</h3><h4><span class=\"ca-quote\">&ldquo;</span><span>" + imageDes + "</span></h4></div></div>";
 		$("#ca-wrapper").append(imageHtml);
 	}
 
