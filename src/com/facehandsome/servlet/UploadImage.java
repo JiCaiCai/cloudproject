@@ -59,6 +59,11 @@ public class UploadImage extends HttpServlet {
 		response.setContentType("text/html;charset=utf-8");
 		final String uploadPath = request.getServletContext().getRealPath("temp");
 		PrintWriter out = response.getWriter();
+		
+		//for debug
+//		out.println("[{\"path\":\"504.bmp\",\"handsome\":\"false\"},{\"path\":\"505.bmp\",\"handsome\":\"false\"},{\"path\":\"553.bmp\",\"handsome\":\"false\"}]");
+//		if (true) return;
+		
 		System.out.println("alert(\"uploadPath = " + uploadPath + "\")");
 
 		DataInputStream in = null;
