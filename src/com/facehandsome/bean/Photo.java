@@ -2,6 +2,7 @@ package com.facehandsome.bean;
 
 public class Photo {
 	private String name;
+	private String descirption;
 	private String path;
 	private String handsome;
 	
@@ -22,5 +23,11 @@ public class Photo {
 	}
 	public void setHandsome(String handsome) {
 		this.handsome = handsome;
+	}
+	public String getDescirption() {
+		return descirption;
+	}
+	public void setDescirption(String descirption) {
+		this.descirption = descirption;
 	}
 }

@@ -108,7 +108,7 @@ public class UploadImage extends HttpServlet {
 						
 						// 3. create instance of json parser
 						Gson gson = new Gson();
-						String jsonRes = gson.toJson(res, Photo.class);
+						String jsonRes = gson.toJson(res);
 						
 						// 4. return json result
 						System.out.println("jsonRes = " + jsonRes);
