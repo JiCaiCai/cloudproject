@@ -34,8 +34,9 @@ public class MdbSimilarPhoto {
 	  
 	           String photo = value.get( "photo" ).toString();
 	           String fingerprint = value.get( "fingerprint" ).toString();
+	           String handsome = value.get( "handsome" ).toString();
 	           int hammingDistance = SimilarImageSearch.hammingDistance(sourceFingerprint, fingerprint);
-	           photoText.set(sourcePhoto+"^&^"+photo);
+	           photoText.set(sourcePhoto+"^&^"+photo+"^&^"+handsome);
 	           similarity.set((16.0 - hammingDistance) / 16.0);
 	           context.write(photoText, similarity);
 	       }  

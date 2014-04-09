@@ -7,6 +7,7 @@ import java.util.regex.Pattern;
 
 import org.bson.types.ObjectId;
 
+import com.facehandsome.bean.Photo;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
@@ -61,12 +62,16 @@ public final class MongoDBUtil {
     	fingerprints.insert(photoFp);
     }
     
-    public static ArrayList<String> findTop3SimilarPhoto(String sourcePath, String collectionName) {
+    public static ArrayList<Photo> findTop3SimilarPhoto(String sourcePath, String collectionName) {
     	Pattern pattern = Pattern.compile("^.*" + sourcePath+ ".*$", Pattern.CASE_INSENSITIVE); 
     	DBCursor dbCursor = getCollection(collectionName).find(new BasicDBObject("_id",pattern)).limit(3).sort(new BasicDBObject("value",-1));
-    	ArrayList<String> result = new ArrayList<String>();
+    	ArrayList<Photo> result = new ArrayList<Photo>();
     	while (dbCursor.hasNext()) {
-    		result.add(dbCursor.next().get("_id").toString().split("\\^\\&\\^")[1]);
+    		Photo photo = new Photo();
+    		String[] resSet = dbCursor.next().get("_id").toString().split("\\^\\&\\^");
+    		photo.setPath(resSet[1]);
+    		photo.setHandsome(resSet[2]);
+    		result.add(photo);
     	}
     	return result;
     }
@@ -77,6 +82,6 @@ public final class MongoDBUtil {
     
     public static void main(String[] args) {
 //    	dropCollection("out");
-//		findTop3SimilarPhoto("/home/hduser/workspace/images/source.jpg", "out");
+		findTop3SimilarPhoto("/home/hduser/workspace/images/source.jpg", "out");
 	}
 }

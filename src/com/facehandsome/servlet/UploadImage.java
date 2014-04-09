@@ -22,6 +22,7 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
+import com.facehandsome.bean.Photo;
 import com.google.gson.Gson;
 
 /**
@@ -103,15 +104,11 @@ public class UploadImage extends HttpServlet {
 						
 						MdbSimilarPhoto.searchSimilarPhoto(uploadPath + "/" + fileName);
 						// make pseudo data for debug
-						ArrayList<String> res = MongoDBUtil.findTop3SimilarPhoto(uploadPath + "/" + fileName ,"out");
-//						res.add("Resource/images/bluesky.jpg");
-//						res.add("Resource/images/jordenstone.jpg");
-//						res.add("Resource/images/bluesky.jpg");
-						//res.add("/Users/roy/Image/bluesky.jpg");
+						ArrayList<Photo> res = MongoDBUtil.findTop3SimilarPhoto(uploadPath + "/" + fileName ,"out");
 						
 						// 3. create instance of json parser
 						Gson gson = new Gson();
-						String jsonRes = gson.toJson(res);
+						String jsonRes = gson.toJson(res, Photo.class);
 						
 						// 4. return json result
 						System.out.println("jsonRes = " + jsonRes);
