@@ -2,6 +2,7 @@ package hadoop.similarPhoto;
 
 import java.io.File;
 import java.net.UnknownHostException;
+import java.util.Random;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
@@ -21,8 +22,15 @@ public class FingerPrintGenerator {
 			try {
 				String imgPath = path+subPath;
 				String fingerPrint = SimilarImageSearch.produceFingerPrint(imgPath);
-				System.out.println(subPath+" : "+fingerPrint);
-				MongoDBUtil.insertFingerprint(subPath, fingerPrint);
+				String handsome = "";
+				int i = new Random().nextInt(2);
+				if (i==0) {
+					handsome = "false";
+				} else {
+					handsome = "true";
+				}
+				System.out.println(subPath+" : "+fingerPrint+" : "+handsome);
+				MongoDBUtil.insertFingerprintNHandsome(subPath, fingerPrint, handsome);
 			} catch (RuntimeException e) {
 				System.out.println(subPath +" Exception");
 				e.printStackTrace();
@@ -37,6 +45,7 @@ public class FingerPrintGenerator {
 			DBCollection fingerPrints = db.getCollection("fingerPrint");
 			fingerPrints.drop();
 			BasicDBObject photoFp = new BasicDBObject("photoName", "MongoDB").append("fingerPrint", "12345");
+			
 			fingerPrints.insert(photoFp);
 			DBCursor cur = fingerPrints.find();
 			while (cur.hasNext()) {
