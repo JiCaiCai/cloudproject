@@ -56,6 +56,11 @@ public final class MongoDBUtil {
 		fingerprints.insert(photoFp);
 	}
     
+    public static void insertFingerprintNHandsome(String photo, String fingerprint, String handsome) {
+    	BasicDBObject photoFp = new BasicDBObject("photo", photo).append("fingerprint", fingerprint).append("handsome", handsome);
+    	fingerprints.insert(photoFp);
+    }
+    
     public static ArrayList<String> findTop3SimilarPhoto(String sourcePath, String collectionName) {
     	Pattern pattern = Pattern.compile("^.*" + sourcePath+ ".*$", Pattern.CASE_INSENSITIVE); 
     	DBCursor dbCursor = getCollection(collectionName).find(new BasicDBObject("_id",pattern)).limit(3).sort(new BasicDBObject("value",-1));
