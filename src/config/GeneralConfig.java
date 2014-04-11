@@ -28,4 +28,8 @@ public class GeneralConfig {
 	 public static String getDBOutput() {
 		 return prop.getProperty("mongoDB.output");
 	 }
+	 
+	 public static String getHOST() {
+		 return prop.getProperty("HOST");
+	 }
 }
