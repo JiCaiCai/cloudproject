@@ -81,10 +81,13 @@ public final class MongoDBUtil {
      * @return
      */
     public static String[] getUnratedPhotoPaths() {
-    	String[] res = new String[fingerprints.find().count()];
     	int i = 0;
     	
-    	DBCursor dbCursor = fingerprints.find();
+    	BasicDBObject query = new BasicDBObject();
+    	query.put("isRandom", "true");
+    	String[] res = new String[fingerprints.find(query).count()];
+    	
+    	DBCursor dbCursor = fingerprints.find(query);
     	
     	while (dbCursor.hasNext()) {
     		res[i] = dbCursor.next().get("photo").toString();
@@ -107,7 +110,8 @@ public final class MongoDBUtil {
     	query.put("photo", imageName);
     	DBObject one = fingerprints.find(query).next();
     	
-    	one.put("handsome", isHandsome);
+    	one.put("handsome", isHandsome + "");
+    	one.put("isRandom", "false");
     	fingerprints.update(query, one);
     	
     	return res;
