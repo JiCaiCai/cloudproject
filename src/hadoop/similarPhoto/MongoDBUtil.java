@@ -58,7 +58,7 @@ public final class MongoDBUtil {
 	}
     
     public static void insertFingerprintNHandsome(String photo, String fingerprint, String handsome) {
-    	BasicDBObject photoFp = new BasicDBObject("photo", photo).append("fingerprint", fingerprint).append("handsome", handsome);
+    	BasicDBObject photoFp = new BasicDBObject("photo", photo).append("fingerprint", fingerprint).append("handsome", handsome).append("isRandom", "true");
     	fingerprints.insert(photoFp);
     }
     
