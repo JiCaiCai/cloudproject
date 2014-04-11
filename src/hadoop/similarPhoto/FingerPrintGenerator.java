@@ -10,9 +10,11 @@ import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.Mongo;
 
+import config.GeneralConfig;
+
 public class FingerPrintGenerator {
 	
-	public static final String path = "/home/hduser/workspace/images/";
+	public static final String path = GeneralConfig.getSourceImagePath();
 	public static void main(String[] args) {
 		File file = new File(path);
 		String subPaths[];

@@ -14,6 +14,8 @@ import com.mongodb.hadoop.MongoInputFormat;
 import com.mongodb.hadoop.MongoOutputFormat;
 import com.mongodb.hadoop.util.MongoConfigUtil;
 
+import config.GeneralConfig;
+
 public class MdbSimilarPhoto {
 	
 	private static String sourcePhoto = null;
@@ -66,8 +68,8 @@ public class MdbSimilarPhoto {
 		sourceFingerprint = SimilarImageSearch.produceFingerPrint(sourcePhoto);
 		
 		final Configuration conf = new Configuration();
-		MongoConfigUtil.setInputURI(conf, "mongodb://localhost/photo.fingerprint");
-		MongoConfigUtil.setOutputURI(conf, "mongodb://localhost/photo.out");
+		MongoConfigUtil.setInputURI(conf, GeneralConfig.getDBFingerprint());
+		MongoConfigUtil.setOutputURI(conf, GeneralConfig.getDBOutput());
 		System.out.println("Conf: " + conf);
 
 		final Job job = new Job(conf, "similar photo");
