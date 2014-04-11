@@ -76,6 +76,43 @@ public final class MongoDBUtil {
     	return result;
     }
     
+    /**
+     * get the unrated photos
+     * @return
+     */
+    public static String[] getUnratedPhotoPaths() {
+    	String[] res = new String[fingerprints.find().count()];
+    	int i = 0;
+    	
+    	DBCursor dbCursor = fingerprints.find();
+    	
+    	while (dbCursor.hasNext()) {
+    		res[i] = dbCursor.next().get("photo").toString();
+    		i += 1;
+    	}
+    	
+    	return res;
+    }
+    
+    /**
+     * update the rate of a photo
+     * @param imageName
+     * @param isHandsome
+     * @return
+     */
+    public static boolean updatePhotoRate(String imageName, boolean isHandsome) {
+    	boolean res = false;
+    	
+    	BasicDBObject query = new BasicDBObject();
+    	query.put("photo", imageName);
+    	DBObject one = fingerprints.find(query).next();
+    	
+    	one.put("handsome", isHandsome);
+    	fingerprints.update(query, one);
+    	
+    	return res;
+    }
+    
     public static DBCollection getCollection(String collectionName) {  
         return db.getCollection(collectionName);  
     }

@@ -5,8 +5,8 @@
 		<title>Evaluate the handsome men</title>
 		
 		<style type="text/css">
-			#image_list { width:300px; height:auto; float:left; display:inline }
-			#image_content { width:300px; height:auto; float:left; display:inline }
+			#image_list { width:300px; height:600px; overflow-y:scroll; border:1px solid; float:left; display:inline }
+			#image_content { width:300px; height:auto; float:left; display:inline; margin-left:20px }
 			#result { color:#F00; display:none;}
 		</style>
 	</head>
@@ -34,6 +34,7 @@
 				    	$("#image_list").append("<a href=\"\">" + images[i] + "</a><br>");
 				  }
 				  $("#image").attr("src","images/" + images[imageIndex]);
+				  updateBackground(imageIndex);
 				  $("#skip").html("Skip ("+ (imageIndex+1) + "/" + images.length + ")");
 				  
 				  $("a").click(function(){
@@ -41,10 +42,10 @@
 						for (var i = 0; i < images.length; i++) {
 					    	if (images[i] == $(this).html()) {
 					    		imageIndex = i;
-					    		break;
 					    	}
 					  	}
 						updateIndex(imageIndex);
+						updateBackground(imageIndex)
 						return false;
 				  });
 			});
@@ -55,6 +56,7 @@
 				$("#image").attr("src","images/" + images[imageIndex + 1]);
 				imageIndex += 1;
 				updateIndex(imageIndex);
+				updateBackground(imageIndex);
 			});
 			
 			$("#no").click(function(){
@@ -63,6 +65,7 @@
 				$("#image").attr("src","images/" + images[imageIndex + 1]);
 				imageIndex += 1;
 				updateIndex(imageIndex);
+				updateBackground(imageIndex);
 			});
 			
 			$("#skip").click(function(){
@@ -71,10 +74,21 @@
 				$("#image").attr("src","images/" + images[imageIndex + 1]);
 				imageIndex += 1;
 				updateIndex(imageIndex);
+				updateBackground(imageIndex);
 			});
 			
 			function updateIndex(index) {
 				$("#skip").html("Skip ("+ (index+1) + "/" + images.length + ")");
+			}
+			
+			function updateBackground(index) {
+				$("a").each(function(){
+					if (images[index] == $(this).html()) {
+			    		$(this).css("background-color","red");
+			    	} else {
+			    		$(this).css("background-color","white");
+			    	}
+				});
 			}
 			
 			function updateImage(imageName, isHandsome) {

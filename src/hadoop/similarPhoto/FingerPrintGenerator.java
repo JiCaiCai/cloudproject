@@ -12,7 +12,7 @@ import com.mongodb.Mongo;
 
 public class FingerPrintGenerator {
 	
-	public static final String path = "/home/hduser/workspace/images/";
+	public static final String path = "/home/roy/Developer/github/cloudproject/WebContent/images/";
 	public static void main(String[] args) {
 		File file = new File(path);
 		String subPaths[];

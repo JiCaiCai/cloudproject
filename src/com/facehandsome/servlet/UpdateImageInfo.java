@@ -1,5 +1,7 @@
 package com.facehandsome.servlet;
 
+import hadoop.similarPhoto.MongoDBUtil;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 
@@ -48,8 +50,10 @@ public class UpdateImageInfo extends HttpServlet {
 		System.out.println("result = " + isHandsome);
 		
 		try {
-			
-			out.println(1);
+			if (MongoDBUtil.updatePhotoRate(imageName, isHandsome) == true)
+				out.println(1);
+			else
+				out.println(0);
 		} catch (Exception e) {
 			out.println(0);
 		}

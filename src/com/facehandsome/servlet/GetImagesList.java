@@ -1,5 +1,7 @@
 package com.facehandsome.servlet;
 
+import hadoop.similarPhoto.MongoDBUtil;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 
@@ -43,11 +45,9 @@ public class GetImagesList extends HttpServlet {
 		response.setContentType("text/html;charset=utf-8");
 		PrintWriter out = response.getWriter();
 		
-		String[] images = new String[]{"1.bmp", "1317.bmp", "1319.bmp", "1320.bmp", "1641.bmp"};
-		
 		Gson gson = new Gson();
 		
-		out.println(gson.toJson(images));
+		out.println(gson.toJson(MongoDBUtil.getUnratedPhotoPaths()));
 	}
 
 }
