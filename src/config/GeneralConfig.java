@@ -4,6 +4,8 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 
 public class GeneralConfig {
@@ -13,6 +15,8 @@ public class GeneralConfig {
 	
 	public static final DateFormat dateFormat = new SimpleDateFormat(dateFormatStr);
 	
+	public static final Map<String, String> colorMap = new HashMap<String, String>();
+	
 	 static {
 		 try {
 			InputStream inputStream = new FileInputStream(new GeneralConfig().getClass().getResource("config.properties").getPath());
@@ -21,6 +25,12 @@ public class GeneralConfig {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} 
+	 }
+	 
+	 static {
+		 //true is orange and false is blue
+		 colorMap.put("true", "#F38630");
+		 colorMap.put("false", "#69D2E7");
 	 }
 	 
 	 public static String getSourceImagePath() {
@@ -37,5 +47,17 @@ public class GeneralConfig {
 	 
 	 public static String getHOST() {
 		 return prop.getProperty("HOST");
+	 }
+	 
+	 public static String getDBSearchResult() {
+		 return prop.getProperty("mongoDB.searchResult");
+	 }
+	 
+	 public static String getDBStatistic() {
+		 return prop.getProperty("mongoDB.statistic");
+	 }
+	 
+	 public static String getDBName() {
+		 return prop.getProperty("dbName");
 	 }
 }

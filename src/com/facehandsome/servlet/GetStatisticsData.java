@@ -1,5 +1,8 @@
 package com.facehandsome.servlet;
 
+import hadoop.similarPhoto.MdbSearchStatistic;
+import hadoop.similarPhoto.MongoDBUtil;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -45,14 +48,7 @@ public class GetStatisticsData extends HttpServlet {
 		response.setContentType("text/html;charset=utf-8");
 		PrintWriter out = response.getWriter();
 		
-		PieGraph data1 = new PieGraph(30, "#F38630");
-		PieGraph data2 = new PieGraph(50, "#E0E4CC");
-		PieGraph data3 = new PieGraph(100, "#69D2E7");
-		
-		ArrayList<PieGraph> list = new ArrayList<PieGraph>();
-		list.add(data1);
-		list.add(data2);
-		list.add(data3);
+		ArrayList<PieGraph> list = MdbSearchStatistic.getHandsomeProportion();
 		
 		Gson gson = new Gson();
 		String json = gson.toJson(list);

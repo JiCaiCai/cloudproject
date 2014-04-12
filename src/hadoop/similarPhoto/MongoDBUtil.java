@@ -3,9 +3,12 @@ package hadoop.similarPhoto;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 import com.facehandsome.bean.Photo;
+import com.facehandsome.bean.PieGraph;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
@@ -18,10 +21,6 @@ import config.GeneralConfig;
 
 public final class MongoDBUtil {  
 	  
-    private static final String HOST = "127.0.0.1";  
-  
-    private static final String dbName = "photo";  
-  
     private static Mongo mongo;  
   
     private static DB db;  
@@ -31,7 +30,7 @@ public final class MongoDBUtil {
     static {  
         try {  
             mongo = new Mongo(GeneralConfig.getHOST());  
-            db = mongo.getDB(dbName);  
+            db = mongo.getDB(GeneralConfig.getDBName());  
             fingerprints = db.getCollection("fingerprint");
             // db.authenticate(username, passwd)  
         } catch (UnknownHostException e) {  
@@ -42,7 +41,8 @@ public final class MongoDBUtil {
     }  
   
     private MongoDBUtil() {  
-    }  
+    }              // db.authenticate(username, passwd)  
+
       
     public static boolean collectionExists(String collectionName) {  
         return db.collectionExists(collectionName);  
@@ -63,7 +63,7 @@ public final class MongoDBUtil {
     }
     
     public static void insertSearchResult(ArrayList<Photo> result) {
-    	DBCollection searchResult = db.getCollection("searchResult");
+    	DBCollection searchResult = getCollection("searchResult");
     	for (Photo photo : result) {
     		BasicDBObject res = new BasicDBObject("photo", photo.getPath()).append("date", GeneralConfig.dateFormat.format(new Date()));
     		searchResult.insert(res);
@@ -80,6 +80,39 @@ public final class MongoDBUtil {
     		photo.setPath(resSet[1]);
     		photo.setHandsome(resSet[2]);
     		result.add(photo);
+    	}
+    	return result;
+    }
+    
+    public static DBCursor findTop10SearchedPhoto() {
+    	DBCollection statistic = getCollection("statistic");
+    	return statistic.find().limit(10).sort(new BasicDBObject("value",-1));
+    }
+    
+    public static ArrayList<PieGraph> findHandsomeProportion() {
+    	DBCursor dbCursor = findTop10SearchedPhoto();
+    	ArrayList<PieGraph> result = new ArrayList<PieGraph>();
+    	Map<String, Integer> handsomeMap = new HashMap<String, Integer>();
+    	
+    	while (dbCursor.hasNext()) {
+    		DBObject dbo = dbCursor.next();
+    		String photo = dbo.get("_id").toString();
+    		Integer count = Integer.valueOf(dbo.get("value").toString());
+    		
+    		BasicDBObject query = new BasicDBObject("photo",photo);
+    		BasicDBObject column = new BasicDBObject("handsome",1);
+    		Boolean handsome = Boolean.valueOf(fingerprints.findOne(query, column).get("handsome").toString());
+    		String res = handsome.toString();
+    		if (handsomeMap.containsKey(res)) {
+    			handsomeMap.put(res, handsomeMap.get(res) + count);
+    		} else {
+    			handsomeMap.put(res, count);
+    		}
+    	}
+    	
+    	for (String key: handsomeMap.keySet()) {
+    		PieGraph pieGraph = new PieGraph(handsomeMap.get(key), GeneralConfig.colorMap.get(key));
+    		result.add(pieGraph);
     	}
     	return result;
     }
@@ -132,10 +165,11 @@ public final class MongoDBUtil {
     public static void main(String[] args) {
 //    	dropCollection("out");
 //		findTop3SimilarPhoto("/home/hduser/workspace/images/source.jpg", "out");
-    	Photo photo  = new Photo();
-    	photo.setPath("abc");
-    	ArrayList<Photo> photos = new ArrayList<>();
-    	photos.add(photo);
-    	insertSearchResult(photos);
+//    	Photo photo  = new Photo();
+//    	photo.setPath("abc");
+//    	ArrayList<Photo> photos = new ArrayList<>();
+//    	photos.add(photo);
+//    	insertSearchResult(photos);
+    	findHandsomeProportion();
 	}
 }
