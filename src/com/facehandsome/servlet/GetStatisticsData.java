@@ -2,6 +2,7 @@ package com.facehandsome.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.facehandsome.bean.PieGraph;
 import com.google.gson.Gson;
 
 /**
@@ -43,13 +45,21 @@ public class GetStatisticsData extends HttpServlet {
 		response.setContentType("text/html;charset=utf-8");
 		PrintWriter out = response.getWriter();
 		
-		String res = "[{value: 30,color:\"#F38630\"},{value : 50,color : \"#E0E4CC\"},{value : 100,color : \"#69D2E7\"}]";
+		PieGraph data1 = new PieGraph(30, "#F38630");
+		PieGraph data2 = new PieGraph(50, "#E0E4CC");
+		PieGraph data3 = new PieGraph(100, "#69D2E7");
+		
+		ArrayList<PieGraph> list = new ArrayList<PieGraph>();
+		list.add(data1);
+		list.add(data2);
+		list.add(data3);
+		
 		Gson gson = new Gson();
+		String json = gson.toJson(list);
 		
+		System.out.println("json = " + json);
 		
-		System.out.println("res = " + res);
-		
-		out.println(gson.toJson(res));
+		out.println(json);
 	}
 
 }

@@ -50,8 +50,7 @@
 		$(function(){
 			$.post("getstatisticsdata", function(data) {
 				var json = $.parseJSON(data);
-				alert(typeof(graphData));
-				myNewChart.Pie(graphData);
+				myNewChart.Pie(json);
 			});
 		});
 		
