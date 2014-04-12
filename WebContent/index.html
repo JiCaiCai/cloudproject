@@ -240,15 +240,15 @@
 				} else {
 					$("#preview").html(html);
 					if (html) {
-						//删除方法
+						//delete method
 						$(".upload_delete").click(function() {
 							ZXXFILE.funDeleteFile(files[parseInt($(this).attr("data-index"))]);
 							return false;	
 						});
-						//提交按钮显示
+						//submit button show
 						$("#fileSubmit").show();	
 					} else {
-						//提交按钮隐藏
+						//submit button hide
 						$("#fileSubmit").hide();	
 					}
 				}
@@ -279,9 +279,9 @@
 			$("#uploadImage_" + file.index).css("opacity", 0.2);
 		},
 		onComplete: function() {
-			//提交按钮隐藏
+			//submit button hide
 			$("#fileSubmit").hide();
-			//file控件value置空
+			//set empty to file value
 			$("#fileImage").val("");
 		}
 	};

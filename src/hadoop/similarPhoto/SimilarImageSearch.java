@@ -37,18 +37,6 @@ public class SimilarImageSearch {
         }
 		
 		System.out.println(differences);
-		
-		/*String hashCode = "8f373714acfcf4d0";
-		int difference = hammingDistance(sourceHashCode, hashCode);
-		
-		System.out.println("Hanming Distance between src: " + sourceHashCode + " and dest: " + hashCode + " is: " + difference);
-		if (difference <= 5){
-			System.out.println("Match");
-		} else if (difference <= 10) {
-			System.out.println("Like");			
-		} else {
-			System.out.println("Not Match");			
-		}*/
 	}
 
 	/**

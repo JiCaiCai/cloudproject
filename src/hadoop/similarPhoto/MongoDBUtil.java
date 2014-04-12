@@ -16,6 +16,8 @@ import com.mongodb.DBObject;
 import com.mongodb.Mongo;
 import com.mongodb.MongoException;
 
+import config.GeneralConfig;
+
 public final class MongoDBUtil {  
 	  
     private static final String HOST = "127.0.0.1";  
@@ -30,7 +32,7 @@ public final class MongoDBUtil {
   
     static {  
         try {  
-            mongo = new Mongo(HOST);  
+            mongo = new Mongo(GeneralConfig.getHOST());  
             db = mongo.getDB(dbName);  
             fingerprints = db.getCollection("fingerprint");
             // db.authenticate(username, passwd)  
@@ -81,13 +83,10 @@ public final class MongoDBUtil {
      * @return
      */
     public static String[] getUnratedPhotoPaths() {
+    	String[] res = new String[fingerprints.find().count()];
     	int i = 0;
     	
-    	BasicDBObject query = new BasicDBObject();
-    	query.put("isRandom", "true");
-    	String[] res = new String[fingerprints.find(query).count()];
-    	
-    	DBCursor dbCursor = fingerprints.find(query);
+    	DBCursor dbCursor = fingerprints.find();
     	
     	while (dbCursor.hasNext()) {
     		res[i] = dbCursor.next().get("photo").toString();
@@ -110,8 +109,7 @@ public final class MongoDBUtil {
     	query.put("photo", imageName);
     	DBObject one = fingerprints.find(query).next();
     	
-    	one.put("handsome", isHandsome + "");
-    	one.put("isRandom", "false");
+    	one.put("handsome", isHandsome);
     	fingerprints.update(query, one);
     	
     	return res;

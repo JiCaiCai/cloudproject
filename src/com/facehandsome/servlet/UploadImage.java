@@ -86,7 +86,6 @@ public class UploadImage extends HttpServlet {
 
 				for (int i = 0; i < items.size(); i++) {
 					FileItem item = items.get(i);
-					// isFormField为true，表示这不是文件上传表单域
 					if (!item.isFormField()) {
 						CheckDirectory(uploadPath);
 						// 获得文件名
@@ -94,8 +93,6 @@ public class UploadImage extends HttpServlet {
 						String fileName = UUID.randomUUID().toString()+suffix;
 						System.out.println(fileName);
 						
-						//System.out.println("fileName = "  + fileName);
-						// 该方法在某些平台(操作系统),会返回路径+文件名
 						fileName = fileName.substring(fileName.lastIndexOf("/") + 1);
 						File file = new File(uploadPath + "/" + fileName);
 						System.out.println("exit: " +file.exists()+" "+uploadPath + "/" + fileName);
