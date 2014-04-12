@@ -9,7 +9,6 @@
     <welcome-file>default.htm</welcome-file>
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
-  
   <servlet>
     <servlet-name>uploadimage</servlet-name>
     <servlet-class>com.facehandsome.servlet.UploadImage</servlet-class>
@@ -18,7 +17,6 @@
     <servlet-name>uploadimage</servlet-name>
     <url-pattern>/uploadimage</url-pattern>
   </servlet-mapping>
-  
   <servlet>
     <servlet-name>getimageslist</servlet-name>
     <servlet-class>com.facehandsome.servlet.GetImagesList</servlet-class>
@@ -27,7 +25,6 @@
     <servlet-name>getimageslist</servlet-name>
     <url-pattern>/getimageslist</url-pattern>
   </servlet-mapping>
-  
   <servlet>
     <servlet-name>updateimageinfo</servlet-name>
     <servlet-class>com.facehandsome.servlet.UpdateImageInfo</servlet-class>
@@ -36,4 +33,14 @@
     <servlet-name>updateimageinfo</servlet-name>
     <url-pattern>/updateimageinfo</url-pattern>
   </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>getstatisticsdata</servlet-name>
+    <servlet-class>com.facehandsome.servlet.GetStatisticsData</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>getstatisticsdata</servlet-name>
+    <url-pattern>/getstatisticsdata</url-pattern>
+  </servlet-mapping>
+  
 </web-app>

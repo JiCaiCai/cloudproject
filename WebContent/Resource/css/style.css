@@ -48,7 +48,7 @@
 	opacity:1.0;
 }
 .ca-item-main{
-	padding:20px;
+	padding:20px;statistics
 	position:absolute;
 	top:5px;
 	left:5px;
@@ -232,4 +232,13 @@
 	max-height: 100%;
 	width: auto;
 	height: auto;
+}
+
+
+
+<!-- statistics.html -->
+.statistics {
+	margin:0px auto;  
+	text-align:center;  
+}
 }

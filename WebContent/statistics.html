@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta http-equiv="description" content="for cloud project">
+		<meta name="description" content="for cloud project">
+		<meta name="keywords" content="web ftont, HTML5, ajax, javascript, image upload">
+		<meta name="author" content="student37">
+		<link rel="stylesheet" href="./Resource/demo.css" type="text/css">
+		<link rel="stylesheet" type="text/css" href="./Resource/css/demo.css" />
+		<link rel="stylesheet" type="text/css" href="./Resource/css/style.css" />
+		<link rel="stylesheet" type="text/css" href="./Resource/css/jquery.jscrollpane.css" media="all" />
+		<link href='http://fonts.googleapis.com/css?family=PT+Sans+Narrow&v1' rel='stylesheet' type='text/css' />
+		<link href='http://fonts.googleapis.com/css?family=Coustard:900' rel='stylesheet' type='text/css' />
+		<link href='http://fonts.googleapis.com/css?family=Rochester' rel='stylesheet' type='text/css' />
+		<title>Statistics Page</title>
+	</head>
+	<body>
+	
+	
+	<div id="header">
+    <h3>HANDSOME &nbsp;&nbsp; FACE &nbsp;&nbsp; Statistics</h3>
+	</div>
+	<div id="main">
+		<h1>Face Comparison based on Cluster</h1>
+	    <div id="body" class="light">
+	    	<div id="content" class="show">
+	        	<h3>Project Demo</h3>
+	            <div class="article_new"><a href="index.html">Back</a></div>
+	            <div class="statistics">
+	            	<canvas id="myChart" width="400" height="400"></canvas>
+	            </div>
+	        </div>       
+	    </div>
+	</div>
+	<div id="footer">
+	    Designed by Student37<br>
+	    Powered by <a href="http://www.cs.hku.hk/">HKUCS Cluster</a><br>
+	    Copyright© HKU<br>    
+	</div>
+	
+	
+	<script src="Resource/js/Chart.js"></script>
+	<script src="Resource/jquery-2.1.0.min.js"></script>
+	<script type="text/javascript">
+		var ctx = $("#myChart").get(0).getContext("2d");
+		var myNewChart = new Chart(ctx);
+		var graphData = [{value: 30,color:"#F38630"},{value : 50,color : "#E0E4CC"},{value : 100,color : "#69D2E7"}];
+		
+		$(function(){
+			$.post("getstatisticsdata", function(data) {
+				var json = $.parseJSON(data);
+				alert(typeof(graphData));
+				myNewChart.Pie(graphData);
+			});
+		});
+		
+	</script>
+	</body>
+</html>
