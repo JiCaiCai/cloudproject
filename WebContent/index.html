@@ -1,6 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-
+<html xmlns="http://www.w3.org/1999/xhtml"><head>
+	
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<meta http-equiv="description" content="for cloud project">
 	<meta name="description" content="for cloud project">
 	<meta name="keywords" content="web ftont, HTML5, ajax, javascript, image upload">
@@ -46,7 +47,7 @@
     <div id="body" class="light">
     	<div id="content" class="show">
         	<h3>Project Demo</h3>
-            <!--<div class="article_new"><a href="http://www.google.com">Surprise!! Click Me</a></div>-->
+            <div class="article_new"><a href="statistics.html">See something interesting!</a></div>
             <div class="demo">
             	<form id="uploadForm" target="frm_dealer" action="uploadimage" method="post" enctype="multipart/form-data">
                     <div class="upload_box">
@@ -72,7 +73,6 @@
 			    
 			    <!-- use to show the result of the faces -->
 			    <iframe name="frm_dealer" id="face_result" style="display:none" onload="onIFrameLoaded(this);"></iframe>
-			    
 			    <!-- start of images area -->
 			    
 			    <div id="ca-container" class="ca-container" style="display:none">
@@ -88,12 +88,11 @@
 </div>
 <div id="footer">
     Designed by Student37<br>
-    Powerd by <a href="http://www.cs.hku.hk/">HKUCS Cluster</a><br>
+    Powered by <a href="http://www.cs.hku.hk/">HKUCS Cluster</a><br>
     Copyright© HKU<br>    
 </div>
 
 
-<!--<script type="text/javascript" async="" src="./Resource/ga.js"></script>-->
 <script type="text/javascript" src="./Resource/jquery-2.1.0.min.js"></script>
 <script type="text/javascript" src="./Resource/zxxFile.js"></script>
 <script type="text/javascript" src="./Resource/js/jquery.easing.1.3.js"></script>
@@ -178,8 +177,6 @@
 		    
 		    if (HandsomeNum > photos.length/2) isHandsome = true;
 		    
-		    //debug
-		    isHandsome = true;
 		    if (isHandsome) showCrown();
 		    
 		    $("#ca-container").fadeIn();
