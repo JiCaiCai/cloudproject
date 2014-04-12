@@ -2,10 +2,16 @@ package config;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Properties;
 
 public class GeneralConfig {
 	private static Properties prop = new Properties();
+	
+	private static final String dateFormatStr = "yyyy-MM-dd HH-mm-ss";
+	
+	public static final DateFormat dateFormat = new SimpleDateFormat(dateFormatStr);
 	
 	 static {
 		 try {

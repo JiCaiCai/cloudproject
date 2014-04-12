@@ -2,10 +2,8 @@ package hadoop.similarPhoto;
 
 import java.net.UnknownHostException;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Date;
 import java.util.regex.Pattern;
-
-import org.bson.types.ObjectId;
 
 import com.facehandsome.bean.Photo;
 import com.mongodb.BasicDBObject;
@@ -29,7 +27,7 @@ public final class MongoDBUtil {
     private static DB db;  
     
     private static DBCollection fingerprints;
-  
+    
     static {  
         try {  
             mongo = new Mongo(GeneralConfig.getHOST());  
@@ -59,9 +57,17 @@ public final class MongoDBUtil {
 		fingerprints.insert(photoFp);
 	}
     
-    public static void insertFingerprintNHandsome(String photo, String fingerprint, String handsome) {
-    	BasicDBObject photoFp = new BasicDBObject("photo", photo).append("fingerprint", fingerprint).append("handsome", handsome).append("isRandom", "true");
+    public static void insertFingerprintNHandsome(String photo, String fingerprint, boolean handsome) {
+    	BasicDBObject photoFp = new BasicDBObject("photo", photo).append("fingerprint", fingerprint).append("handsome", handsome).append("isRandom", true);
     	fingerprints.insert(photoFp);
+    }
+    
+    public static void insertSearchResult(ArrayList<Photo> result) {
+    	DBCollection searchResult = db.getCollection("searchResult");
+    	for (Photo photo : result) {
+    		BasicDBObject res = new BasicDBObject("photo", photo.getPath()).append("date", GeneralConfig.dateFormat.format(new Date()));
+    		searchResult.insert(res);
+    	}
     }
     
     public static ArrayList<Photo> findTop3SimilarPhoto(String sourcePath, String collectionName) {
@@ -85,14 +91,17 @@ public final class MongoDBUtil {
     public static String[] getUnratedPhotoPaths() {
     	String[] res = new String[fingerprints.find().count()];
     	int i = 0;
-    	
-    	DBCursor dbCursor = fingerprints.find();
-    	
+   
+    	BasicDBObject query = new BasicDBObject();
+    	query.put("isRandom", true);
+   
+    	DBCursor dbCursor = fingerprints.find(query);
+   
     	while (dbCursor.hasNext()) {
     		res[i] = dbCursor.next().get("photo").toString();
     		i += 1;
     	}
-    	
+   
     	return res;
     }
     
@@ -104,14 +113,15 @@ public final class MongoDBUtil {
      */
     public static boolean updatePhotoRate(String imageName, boolean isHandsome) {
     	boolean res = false;
-    	
+   
     	BasicDBObject query = new BasicDBObject();
     	query.put("photo", imageName);
     	DBObject one = fingerprints.find(query).next();
-    	
+   
     	one.put("handsome", isHandsome);
+    	one.put("isRandom", false);
     	fingerprints.update(query, one);
-    	
+   
     	return res;
     }
     
@@ -121,6 +131,11 @@ public final class MongoDBUtil {
     
     public static void main(String[] args) {
 //    	dropCollection("out");
-		findTop3SimilarPhoto("/home/hduser/workspace/images/source.jpg", "out");
+//		findTop3SimilarPhoto("/home/hduser/workspace/images/source.jpg", "out");
+    	Photo photo  = new Photo();
+    	photo.setPath("abc");
+    	ArrayList<Photo> photos = new ArrayList<>();
+    	photos.add(photo);
+    	insertSearchResult(photos);
 	}
 }
