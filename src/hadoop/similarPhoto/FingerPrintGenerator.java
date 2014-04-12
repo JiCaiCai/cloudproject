@@ -24,12 +24,12 @@ public class FingerPrintGenerator {
 			try {
 				String imgPath = path+subPath;
 				String fingerPrint = SimilarImageSearch.produceFingerPrint(imgPath);
-				String handsome = "";
+				boolean handsome = false;
 				int i = new Random().nextInt(2);
 				if (i==0) {
-					handsome = "false";
+					handsome = false;
 				} else {
-					handsome = "true";
+					handsome = true;
 				}
 				System.out.println(subPath+" : "+fingerPrint+" : "+handsome);
 				MongoDBUtil.insertFingerprintNHandsome(subPath, fingerPrint, handsome);

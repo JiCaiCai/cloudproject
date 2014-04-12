@@ -107,6 +107,7 @@ public class UploadImage extends HttpServlet {
 						MdbSimilarPhoto.searchSimilarPhoto(uploadPath + "/" + fileName);
 						// make pseudo data for debug
 						ArrayList<Photo> res = MongoDBUtil.findTop3SimilarPhoto(uploadPath + "/" + fileName ,"out");
+						MongoDBUtil.insertSearchResult(res);
 						
 						// 3. create instance of json parser
 						Gson gson = new Gson();
