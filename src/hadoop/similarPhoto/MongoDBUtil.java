@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+import com.facehandsome.bean.BarGraph;
+import com.facehandsome.bean.Dataset;
 import com.facehandsome.bean.Photo;
 import com.facehandsome.bean.PieGraph;
 import com.mongodb.BasicDBObject;
@@ -40,9 +42,7 @@ public final class MongoDBUtil {
         }  
     }  
   
-    private MongoDBUtil() {  
-    }              // db.authenticate(username, passwd)  
-
+    private MongoDBUtil() {}              
       
     public static boolean collectionExists(String collectionName) {  
         return db.collectionExists(collectionName);  
@@ -84,13 +84,13 @@ public final class MongoDBUtil {
     	return result;
     }
     
-    public static DBCursor findTop10SearchedPhoto() {
+    public static DBCursor findTopNSearchedPhoto(int limit) {
     	DBCollection statistic = getCollection("statistic");
-    	return statistic.find().limit(10).sort(new BasicDBObject("value",-1));
+    	return statistic.find().limit(limit).sort(new BasicDBObject("value",-1));
     }
     
     public static ArrayList<PieGraph> findHandsomeProportion() {
-    	DBCursor dbCursor = findTop10SearchedPhoto();
+    	DBCursor dbCursor = findTopNSearchedPhoto(10);
     	ArrayList<PieGraph> result = new ArrayList<PieGraph>();
     	Map<String, Integer> handsomeMap = new HashMap<String, Integer>();
     	
@@ -115,6 +115,33 @@ public final class MongoDBUtil {
     		result.add(pieGraph);
     	}
     	return result;
+    }
+    
+    public static BarGraph findRankedPics() {
+    	DBCursor dbCursor = findTopNSearchedPhoto(5);
+    	
+    	BarGraph barData = new BarGraph();
+    	ArrayList<String> labels = new ArrayList<String>();
+    	ArrayList<Dataset> datasets = new ArrayList<Dataset>();
+		Dataset dataset = new Dataset();
+		dataset.setFillColor("rgba(151,187,205,0.5)");
+		dataset.setStrokeColor("rgba(151,187,205,1)");
+		ArrayList<Integer> data = new ArrayList<Integer>();
+    	
+    	while (dbCursor.hasNext()) {
+    		DBObject dbo = dbCursor.next();
+    		String photo = dbo.get("_id").toString();
+    		Integer count = Integer.valueOf(dbo.get("value").toString());
+    		
+    		labels.add(photo);
+    		data.add(count);
+    	}
+    	
+    	dataset.setData(data);
+    	datasets.add(dataset);
+    	barData.setLabels(labels);
+    	barData.setDatasets(datasets);
+    	return barData;
     }
     
     /**
@@ -170,6 +197,6 @@ public final class MongoDBUtil {
 //    	ArrayList<Photo> photos = new ArrayList<>();
 //    	photos.add(photo);
 //    	insertSearchResult(photos);
-    	findHandsomeProportion();
+    	findRankedPics();
 	}
 }

@@ -60,4 +60,12 @@ public class GeneralConfig {
 	 public static String getDBName() {
 		 return prop.getProperty("dbName");
 	 }
+	 
+	 public static String getCollectionSearchResult() {
+		 return prop.getProperty("collection.searchResult");
+	 }
+	 
+	 public static String getCollectionFingerPrint() {
+		 return prop.getProperty("collection.fingerprint");
+	 }
 }

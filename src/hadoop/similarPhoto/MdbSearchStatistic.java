@@ -51,11 +51,14 @@ public class MdbSearchStatistic {
 	       }  
 	   }
 	   
-	public static ArrayList<PieGraph> getHandsomeProportion() {
+	public static void searchResultStatistic() {
 		try {
+			if (!MongoDBUtil.collectionExists(GeneralConfig.getCollectionSearchResult())) {
+				return;
+			}
+			
 			final Configuration conf = new Configuration();
-			MongoConfigUtil
-					.setInputURI(conf, GeneralConfig.getDBSearchResult());
+			MongoConfigUtil.setInputURI(conf, GeneralConfig.getDBSearchResult());
 			MongoConfigUtil.setOutputURI(conf, GeneralConfig.getDBStatistic());
 			System.out.println("Conf: " + conf);
 
@@ -89,9 +92,8 @@ public class MdbSearchStatistic {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		return MongoDBUtil.findHandsomeProportion();
 	}
-	   
+	
 	   public static void main(String[] args) throws Exception {
 			final Configuration conf = new Configuration();
 			MongoConfigUtil.setInputURI(conf, GeneralConfig.getDBSearchResult());

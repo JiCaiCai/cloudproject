@@ -1,6 +1,7 @@
 package com.facehandsome.servlet;
 
 import hadoop.similarPhoto.MdbSearchStatistic;
+import hadoop.similarPhoto.MongoDBUtil;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -49,26 +50,9 @@ public class GetStatisticsData extends HttpServlet {
 		response.setContentType("text/html;charset=utf-8");
 		PrintWriter out = response.getWriter();
 		
-		ArrayList<PieGraph> pieData = MdbSearchStatistic.getHandsomeProportion();
-		BarGraph barData = new BarGraph();
-		
-		// pseudo data for debug
-		ArrayList<String> labels = new ArrayList<String>();
-		labels.add("1.bmp");
-		labels.add("1317.bmp");
-		barData.setLabels(labels);
-		
-		ArrayList<Dataset> datasets = new ArrayList<Dataset>();
-		Dataset dataset = new Dataset();
-		dataset.setFillColor("rgba(220,220,220,0.5)");
-		dataset.setStrokeColor("rgba(220,220,220,1)");
-		ArrayList<Integer> data = new ArrayList<Integer>();
-		data.add(45);
-		data.add(60);
-		dataset.setData(data);
-		datasets.add(dataset);
-		barData.setDatasets(datasets);
-		// end of pseudo data
+		MdbSearchStatistic.searchResultStatistic();
+		ArrayList<PieGraph> pieData = MongoDBUtil.findHandsomeProportion();
+		BarGraph barData = MongoDBUtil.findRankedPics();
 		
 		String[] res = new String[2];
 		

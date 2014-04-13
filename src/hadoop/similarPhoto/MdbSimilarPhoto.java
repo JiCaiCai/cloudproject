@@ -64,6 +64,9 @@ public class MdbSimilarPhoto {
 	   
 	   
 	public static void searchSimilarPhoto(String photoPath) throws Exception {
+		if (!MongoDBUtil.collectionExists(GeneralConfig.getCollectionFingerPrint())) {
+			return;
+		}
 		sourcePhoto = photoPath;
 		sourceFingerprint = SimilarImageSearch.produceFingerPrint(sourcePhoto);
 		
