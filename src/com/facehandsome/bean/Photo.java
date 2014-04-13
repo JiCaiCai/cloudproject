@@ -4,7 +4,8 @@ public class Photo {
 	private String name;
 	private String descirption;
 	private String path;
-	private String handsome;
+	private boolean handsome;
+	private boolean isRandom;
 	
 	public String getName() {
 		return name;
@@ -18,10 +19,10 @@ public class Photo {
 	public void setPath(String path) {
 		this.path = path;
 	}
-	public String getHandsome() {
+	public boolean isHandsome() {
 		return handsome;
 	}
-	public void setHandsome(String handsome) {
+	public void setHandsome(boolean handsome) {
 		this.handsome = handsome;
 	}
 	public String getDescirption() {
@@ -29,5 +30,11 @@ public class Photo {
 	}
 	public void setDescirption(String descirption) {
 		this.descirption = descirption;
+	}
+	public boolean isRandom() {
+		return isRandom;
+	}
+	public void setRandom(boolean isRandom) {
+		this.isRandom = isRandom;
 	}
 }

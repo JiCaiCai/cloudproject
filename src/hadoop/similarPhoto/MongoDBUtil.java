@@ -70,6 +70,11 @@ public final class MongoDBUtil {
     	}
     }
     
+    public static boolean isDuplicatedFingerprint(String fingerprint) {
+    	DBCursor dbCursor = fingerprints.find(new BasicDBObject("fingerprint", fingerprint),new BasicDBObject("_id", 1));
+    	return dbCursor.hasNext();
+    }
+    
     public static ArrayList<Photo> findTop3SimilarPhoto(String sourcePath, String collectionName) {
     	Pattern pattern = Pattern.compile("^.*" + sourcePath+ ".*$", Pattern.CASE_INSENSITIVE); 
     	DBCursor dbCursor = getCollection(collectionName).find(new BasicDBObject("_id",pattern)).limit(3).sort(new BasicDBObject("value",-1));
@@ -78,7 +83,7 @@ public final class MongoDBUtil {
     		Photo photo = new Photo();
     		String[] resSet = dbCursor.next().get("_id").toString().split("\\^\\&\\^");
     		photo.setPath(resSet[1]);
-    		photo.setHandsome(resSet[2]);
+    		photo.setHandsome(Boolean.valueOf(resSet[2]));
     		result.add(photo);
     	}
     	return result;
