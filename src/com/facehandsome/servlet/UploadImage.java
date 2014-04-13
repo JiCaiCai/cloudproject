@@ -22,6 +22,7 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
+import com.facehandsome.bean.Photo;
 import com.google.gson.Gson;
 
 /**
@@ -59,6 +60,11 @@ public class UploadImage extends HttpServlet {
 		response.setContentType("text/html;charset=utf-8");
 		final String uploadPath = request.getServletContext().getRealPath("temp");
 		PrintWriter out = response.getWriter();
+		
+		//for debug
+//		out.println("[{\"path\":\"504.bmp\",\"handsome\":\"false\"},{\"path\":\"505.bmp\",\"handsome\":\"false\"},{\"path\":\"553.bmp\",\"handsome\":\"false\"}]");
+//		if (true) return;
+		
 		System.out.println("alert(\"uploadPath = " + uploadPath + "\")");
 
 		DataInputStream in = null;
@@ -80,7 +86,6 @@ public class UploadImage extends HttpServlet {
 
 				for (int i = 0; i < items.size(); i++) {
 					FileItem item = items.get(i);
-					// isFormField为true，表示这不是文件上传表单域
 					if (!item.isFormField()) {
 						CheckDirectory(uploadPath);
 						// 获得文件名
@@ -88,8 +93,6 @@ public class UploadImage extends HttpServlet {
 						String fileName = UUID.randomUUID().toString()+suffix;
 						System.out.println(fileName);
 						
-						//System.out.println("fileName = "  + fileName);
-						// 该方法在某些平台(操作系统),会返回路径+文件名
 						fileName = fileName.substring(fileName.lastIndexOf("/") + 1);
 						File file = new File(uploadPath + "/" + fileName);
 						System.out.println("exit: " +file.exists()+" "+uploadPath + "/" + fileName);
@@ -103,11 +106,8 @@ public class UploadImage extends HttpServlet {
 						
 						MdbSimilarPhoto.searchSimilarPhoto(uploadPath + "/" + fileName);
 						// make pseudo data for debug
-						ArrayList<String> res = MongoDBUtil.findTop3SimilarPhoto(uploadPath + "/" + fileName ,"out");
-//						res.add("Resource/images/bluesky.jpg");
-//						res.add("Resource/images/jordenstone.jpg");
-//						res.add("Resource/images/bluesky.jpg");
-						//res.add("/Users/roy/Image/bluesky.jpg");
+						ArrayList<Photo> res = MongoDBUtil.findTop3SimilarPhoto(uploadPath + "/" + fileName ,"out");
+						MongoDBUtil.insertSearchResult(res);
 						
 						// 3. create instance of json parser
 						Gson gson = new Gson();

@@ -14,6 +14,8 @@ import com.mongodb.hadoop.MongoInputFormat;
 import com.mongodb.hadoop.MongoOutputFormat;
 import com.mongodb.hadoop.util.MongoConfigUtil;
 
+import config.GeneralConfig;
+
 public class MdbSimilarPhoto {
 	
 	private static String sourcePhoto = null;
@@ -34,8 +36,9 @@ public class MdbSimilarPhoto {
 	  
 	           String photo = value.get( "photo" ).toString();
 	           String fingerprint = value.get( "fingerprint" ).toString();
+	           String handsome = value.get( "handsome" ).toString();
 	           int hammingDistance = SimilarImageSearch.hammingDistance(sourceFingerprint, fingerprint);
-	           photoText.set(sourcePhoto+"^&^"+photo);
+	           photoText.set(sourcePhoto+"^&^"+photo+"^&^"+handsome);
 	           similarity.set((16.0 - hammingDistance) / 16.0);
 	           context.write(photoText, similarity);
 	       }  
@@ -61,12 +64,15 @@ public class MdbSimilarPhoto {
 	   
 	   
 	public static void searchSimilarPhoto(String photoPath) throws Exception {
+		if (!MongoDBUtil.collectionExists(GeneralConfig.getCollectionFingerPrint())) {
+			return;
+		}
 		sourcePhoto = photoPath;
 		sourceFingerprint = SimilarImageSearch.produceFingerPrint(sourcePhoto);
 		
 		final Configuration conf = new Configuration();
-		MongoConfigUtil.setInputURI(conf, "mongodb://localhost/photo.fingerprint");
-		MongoConfigUtil.setOutputURI(conf, "mongodb://localhost/photo.out");
+		MongoConfigUtil.setInputURI(conf, GeneralConfig.getDBFingerprint());
+		MongoConfigUtil.setOutputURI(conf, GeneralConfig.getDBOutput());
 		System.out.println("Conf: " + conf);
 
 		final Job job = new Job(conf, "similar photo");

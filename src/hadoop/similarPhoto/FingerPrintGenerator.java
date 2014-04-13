@@ -10,27 +10,34 @@ import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.Mongo;
 
+import config.GeneralConfig;
+
 public class FingerPrintGenerator {
 	
-	public static final String path = "/home/hduser/workspace/images/";
+	public static final String path = GeneralConfig.getSourceImagePath();
 	public static void main(String[] args) {
 		File file = new File(path);
 		String subPaths[];
 		subPaths = file.list();
 		MongoDBUtil.dropCollection("fingerprint");
+		MongoDBUtil.dropCollection("searchResult");
+		MongoDBUtil.dropCollection("out");
+		MongoDBUtil.dropCollection("statistic");
 		for (String subPath : subPaths) {
 			try {
 				String imgPath = path+subPath;
-				String fingerPrint = SimilarImageSearch.produceFingerPrint(imgPath);
-				String handsome = "";
+				String fingerprint = SimilarImageSearch.produceFingerPrint(imgPath);
+				boolean handsome = false;
 				int i = new Random().nextInt(2);
 				if (i==0) {
-					handsome = "false";
+					handsome = false;
 				} else {
-					handsome = "true";
+					handsome = true;
 				}
-				System.out.println(subPath+" : "+fingerPrint+" : "+handsome);
-				MongoDBUtil.insertFingerprintNHandsome(subPath, fingerPrint, handsome);
+				System.out.println(subPath+" : "+fingerprint+" : "+handsome);
+				if (!MongoDBUtil.isDuplicatedFingerprint(fingerprint)) {
+					MongoDBUtil.insertFingerprintNHandsome(subPath, fingerprint, handsome);
+				}
 			} catch (RuntimeException e) {
 				System.out.println(subPath +" Exception");
 				e.printStackTrace();

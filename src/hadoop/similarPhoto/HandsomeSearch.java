@@ -39,7 +39,7 @@ public class HandsomeSearch {
 	           String handsome = value.get("handsome").toString();
 	           
 	           int hammingDistance = SimilarImageSearch.hammingDistance(sourceFingerprint, fingerprint);
-	           photoText.set(photo+"$"+handsome);
+	           photoText.set(photo + "^&^" + sourcePhoto + "$" + handsome);
 	           similarity.set((16.0 - hammingDistance) / 16.0);
 	           context.write(photoText, similarity);
 	       }  
@@ -59,6 +59,7 @@ public class HandsomeSearch {
 	               sum += val.get();  
 	           }  
 	           result.set( sum );
+	           System.out.println("key: "+key);
 	           context.write( key, result );  
 	       }  
 	   } 
