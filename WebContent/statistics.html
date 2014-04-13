@@ -57,11 +57,11 @@
 		
 		$(function(){
 			$.post("getstatisticsdata", function(data) {
-				if (data != null) {
-					var json = $.parseJSON(data);
-					pieData = $.parseJSON(json[0]);
-					barData = $.parseJSON(json[1]);
-					
+				var json = $.parseJSON(data);
+				pieData = $.parseJSON(json[0]);
+				barData = $.parseJSON(json[1]);
+				
+				if (pieData.length != 0) {
 					/* start of pie chart*/
 					var colors = new Array(pieData.length);
 					var colorText = new Array(pieData.length);
@@ -93,6 +93,7 @@
 					
 				} else {
 					$("#statistics_pie").html("<h3>NO &nbsp;&nbsp; DATA</h3>");
+					$('#switch').attr('disabled',true);
 				}
 			});
 			

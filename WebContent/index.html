@@ -180,7 +180,7 @@
 		    if (isHandsome) showCrown();
 		    
 		    $("#ca-container").fadeIn();
-		},3000);
+		},2000);
 	}
 	
 	function addImageItem(imageName, imagePath, imageDes) {
@@ -201,8 +201,9 @@
 			var arrFiles = [];
 			for (var i = 0, file; file = files[i]; i++) {
 				if (file.type.indexOf("image") == 0) {
-					if (file.size >= 512000) {
-						alert('This "'+ file.name +'" should not larger than 500KB');	
+					if (file.size >= 10240000) {
+						alert('This "'+ file.name +'" should not larger than 500KB');
+						$("#fileImage").val("");
 					} else {
 						arrFiles.push(file);	
 					}			
@@ -225,6 +226,7 @@
 				if (file) {
 					var reader = new FileReader()
 					reader.onload = function(e) {
+						$('#fileImage').hide();
 						html = html + '<div id="uploadList_'+ i +'" class="upload_append_list"><p><strong>' + file.name + '</strong>'+ 
 							'<a href="javascript:" class="upload_delete" title="delete" data-index="'+ i +'">Delete</a><br />' +
 							'<img id="uploadImage_' + i + '" src="' + e.target.result + '" class="upload_image" /></p>'+ 
@@ -259,6 +261,7 @@
 			//$("#uploadList_" + file.index).fadeOut();
 			$("#uploadList_" + file.index).hide();
 			$("#fileSubmit").hide();
+			$('#fileImage').show();
 			$("#fileImage").val("");
 		},
 		onDragOver: function() {
