@@ -169,9 +169,9 @@
 		    for (var i = 0; i < photos.length; i++) {
 		    	// image name, image path, image description
 		    	if (photos[i].name == null) {
-		    		addImageItem("Lazy Owner", photos[i].path, "All men must die!");
+		    		addImageItem(photos[i].path, photos[i].path, photos[i].descirption);
 		    	} else {
-		    		addImageItem(photos[i].name, photos[i].path, "All man will die!");
+		    		addImageItem(photos[i].name, photos[i].path, photos[i].descirption);
 		    	}
 		    	
 		    	if (photos[i].handsome == true) HandsomeNum += 1;
