@@ -1,7 +1,6 @@
 package com.facehandsome.servlet;
 
 import hadoop.similarPhoto.MdbSearchStatistic;
-import hadoop.similarPhoto.MongoDBUtil;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -13,6 +12,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.facehandsome.bean.BarGraph;
+import com.facehandsome.bean.Dataset;
 import com.facehandsome.bean.PieGraph;
 import com.google.gson.Gson;
 
@@ -48,10 +49,34 @@ public class GetStatisticsData extends HttpServlet {
 		response.setContentType("text/html;charset=utf-8");
 		PrintWriter out = response.getWriter();
 		
-		ArrayList<PieGraph> list = MdbSearchStatistic.getHandsomeProportion();
+		ArrayList<PieGraph> pieData = MdbSearchStatistic.getHandsomeProportion();
+		BarGraph barData = new BarGraph();
+		
+		// pseudo data for debug
+		ArrayList<String> labels = new ArrayList<String>();
+		labels.add("1.bmp");
+		labels.add("1317.bmp");
+		barData.setLabels(labels);
+		
+		ArrayList<Dataset> datasets = new ArrayList<Dataset>();
+		Dataset dataset = new Dataset();
+		dataset.setFillColor("rgba(220,220,220,0.5)");
+		dataset.setStrokeColor("rgba(220,220,220,1)");
+		ArrayList<Integer> data = new ArrayList<Integer>();
+		data.add(45);
+		data.add(60);
+		dataset.setData(data);
+		datasets.add(dataset);
+		barData.setDatasets(datasets);
+		// end of pseudo data
+		
+		String[] res = new String[2];
 		
 		Gson gson = new Gson();
-		String json = gson.toJson(list);
+		res[0] = gson.toJson(pieData);
+		res[1] = gson.toJson(barData);
+		
+		String json = gson.toJson(res);
 		
 		System.out.println("json = " + json);
 		

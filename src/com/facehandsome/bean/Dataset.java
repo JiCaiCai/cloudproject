@@ -25,6 +25,4 @@ public class Dataset {
 	public void setData(ArrayList<Integer> data) {
 		this.data = data;
 	}
-	
-	
 }

@@ -237,8 +237,44 @@
 
 
 <!-- statistics.html -->
-.statistics {
-	margin:0px auto;  
-	text-align:center;  
+#statistics_pie {
+	text-align:center;
+	margin-left: auto;
+    margin-right: auto;
 }
+
+#pie_chart {
+	float:left;
+}
+
+#colormean {
+	float:left;
+	margin-top: 150px;
+	margin-left: 30px;
+}
+
+.color {
+	background:#000000;
+	border:1px solid #F00;
+	margin-top:5px;
+	width:100px;
+	height:50px;
+	line-height:50px;
+	text-align:center;
+	font-weight:bold;
+}
+
+.limit_size {
+	width:200px;
+	height:150px;
+	position:relative;
+	margin:0 auto;
+	overflow: hidden;
+}
+
+.limit_size img{
+	max-width: 100%;
+	max-height: 100%;
+	width: auto;
+	height: auto;
 }
