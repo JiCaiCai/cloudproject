@@ -237,13 +237,17 @@
 
 
 <!-- statistics.html -->
-#statistics_pie {
-	text-align:center;
-	margin-left: auto;
-    margin-right: auto;
+
+#statistics_bar {
+	margin:0 auto;
+	width:0px;
 }
 
 #pie_chart {
+	float:left;
+}
+
+#bar_chart {
 	float:left;
 }
 
@@ -265,11 +269,11 @@
 }
 
 .limit_size {
+	float:left;
 	width:200px;
 	height:150px;
 	position:relative;
 	margin:0 auto;
-	overflow: hidden;
 }
 
 .limit_size img{
@@ -277,4 +281,12 @@
 	max-height: 100%;
 	width: auto;
 	height: auto;
+}
+
+.limit_size p{
+	font-weight:bold;
+	color: black;
+	font-family: "Georgia","Times New Roman",serif;
+	font-style:italic;
+	text-shadow:1px 1px 1px #897c63;
 }

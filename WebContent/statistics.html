@@ -24,8 +24,8 @@
 	<div id="main">
 		<h1>Face Comparison based on Cluster</h1>
 	    <div id="body" class="light">
-	    	<div id="content" class="show">
-	        	<h3><button id="switch">Switch</button></h3>
+	    	<div id="content">
+	        	<h3><button id="switch">Bar Graph</button></h3>
 	            <div class="article_new"><a href="index.html">Back</a></div>
 	            <div id="statistics_pie">
 	            	<canvas id="pie_chart" width="400" height="400"></canvas>
@@ -33,7 +33,6 @@
 	            </div>
 	            <div id="statistics_bar" style="display:none">
 	            	<canvas id="bar_chart" width="400" height="400"></canvas>
-	            	<div id="colormean"></div>
 	            	<div id="image_content"></div>
 	            </div>
 	        </div>       
@@ -66,8 +65,8 @@
 					/* start of pie chart*/
 					var colors = new Array(pieData.length);
 					var colorText = new Array(pieData.length);
-					colorText[0] = "1.bmp";
-					colorText[1] = "1317.bmp";
+					colorText[0] = "Handsome";
+					colorText[1] = "Not Handsom";
 					
 					// get the colors
 					for (var i = 0; i < colors.length; i++) {
@@ -78,28 +77,15 @@
 
 					// show pie graph
 					pieChart.Pie(pieData);
-					
-					// bind the color block to the image
-					$(".color").hover(
-						  function() {
-							  var imageName = $(this).text();
-						      $("#image_content img").each(function(){
-						    	  if ($(this).attr("src") == "images/" + imageName)
-						    	  	  $(this).animate({opacity:"0.8"},0);
-						    	  else
-						    	  	  $(this).animate({opacity:"0.1"},0);
-						      });
-						  }, function() {
-							  $("#image_content img").each(function(){
-								  $(this).animate({opacity:"1"},0);
-							  });
-						  }
-					);
 					/* end of pie chart*/
 					
 					
 					/* start of bar chart*/
-					barChart.Bar(barData);
+					var labels = barData.labels;
+					
+					for (var i = 0; i < labels.length; i++) {
+						$("#image_content").append("<div class=\"limit_size\"><img src=\"images/" + labels[i] + "\" /><p>" + labels[i] + "</p></div>");
+					}
 					/* end of bar chart*/
 					
 				} else {
@@ -108,8 +94,17 @@
 			});
 			
 			$("#switch").click(function(){
-				$("#statistics_pie").hide();
-				$("#statistics_bar").fadeIn();
+				if ($(this).text() == "Bar Graph") {
+					$(this).text("Pie Graph");
+					$("#statistics_pie").hide();
+					$("#statistics_bar").fadeIn();
+					barChart.Bar(barData);
+				} else {
+					$(this).text("Bar Graph");
+					$("#statistics_bar").hide();
+					$("#statistics_pie").fadeIn();
+					pieChart.Pie(pieData);
+				}
 			});
 			
 		});
