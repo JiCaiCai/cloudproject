@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<title>Evaluate the handsome men</title>
+		
+		<style type="text/css">
+			#image_list { width:300px; height:600px; overflow-y:scroll; border:1px solid; float:left; display:inline }
+			#image_content { width:300px; height:auto; float:left; display:inline; margin-left:20px }
+			#result { color:#F00; display:none;}
+		</style>
+	</head>
+	<body>
+	
+	<div id="image_list"></div>
+	<div id="image_content">
+		<button id="yes">Yes</button>
+		<button id="no">No</button>
+		<button id="skip">Skip</button>
+		<p>Is this guy handsome? be honest!</p>
+		<img id="image" src="" />
+		<p id="result">Successfully update the image information!</p>
+	</div>
+	
+	<script type="text/javascript" src="./Resource/jquery-2.1.0.min.js"></script>
+	<script type="text/javascript">
+		$(function(){
+			var images;
+			var imageIndex = 0;
+			
+			$.post("getimageslist", function(data) {
+				  images = $.parseJSON(data);
+				  for (var i = 0; i < images.length; i++) {
+				    	$("#image_list").append("<a href=\"\">" + images[i] + "</a><br>");
+				  }
+				  $("#image").attr("src","images/" + images[imageIndex]);
+				  updateBackground(imageIndex);
+				  $("#skip").html("Skip ("+ (imageIndex+1) + "/" + images.length + ")");
+				  
+				  $("a").click(function(){
+						$("#image").attr("src","images/" + $(this).html());
+						for (var i = 0; i < images.length; i++) {
+					    	if (images[i] == $(this).html()) {
+					    		imageIndex = i;
+					    	}
+					  	}
+						updateIndex(imageIndex);
+						updateBackground(imageIndex)
+						return false;
+				  });
+			});
+			
+			$("#yes").click(function(){
+				updateImage(images[imageIndex], true);
+				if (imageIndex+1 >= images.length) imageIndex = -1;
+				$("#image").attr("src","images/" + images[imageIndex + 1]);
+				imageIndex += 1;
+				updateIndex(imageIndex);
+				updateBackground(imageIndex);
+			});
+			
+			$("#no").click(function(){
+				updateImage(images[imageIndex], false);
+				if (imageIndex+1 >= images.length) imageIndex = -1;
+				$("#image").attr("src","images/" + images[imageIndex + 1]);
+				imageIndex += 1;
+				updateIndex(imageIndex);
+				updateBackground(imageIndex);
+			});
+			
+			$("#skip").click(function(){
+				// skip to next image
+				if (imageIndex+1 >= images.length) imageIndex = -1;
+				$("#image").attr("src","images/" + images[imageIndex + 1]);
+				imageIndex += 1;
+				updateIndex(imageIndex);
+				updateBackground(imageIndex);
+			});
+			
+			function updateIndex(index) {
+				$("#skip").html("Skip ("+ (index+1) + "/" + images.length + ")");
+			}
+			
+			function updateBackground(index) {
+				$("a").each(function(){
+					if (images[index] == $(this).html()) {
+			    		$(this).css("background-color","red");
+			    	} else {
+			    		$(this).css("background-color","white");
+			    	}
+				});
+			}
+			
+			function updateImage(imageName, isHandsome) {
+				$.post("updateimageinfo", {name: imageName, result: isHandsome}, function(data) {
+					if (data) {
+						$("#result").fadeIn().delay(1000).fadeOut();
+					}
+				});
+			}
+		});
+	</script>
+	</body>
+</html>
