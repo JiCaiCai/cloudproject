@@ -39,7 +39,7 @@
 	    </div>
 	</div>
 	<div id="footer">
-	    Designed by Student37<br>
+	    Designed by Lin Ji, Niu ZhiXiong, Xu ZuLiang<br>
 	    Powered by <a href="http://www.cs.hku.hk/">HKUCS Cluster</a><br>
 	    Copyright© HKU<br>    
 	</div>
@@ -65,14 +65,17 @@
 					/* start of pie chart*/
 					var colors = new Array(pieData.length);
 					var colorText = new Array(pieData.length);
-					colorText[0] = "Handsome";
-					colorText[1] = "Not Handsom";
+					colorText[0] = "Not Handsome";
+					colorText[1] = "Handsome";
+					
+					var percents = new Array(pieData.length);
+					percents[0] = parseInt(pieData[0].value/(pieData[0].value + pieData[1].value) * 100);
+					percents[1] = 100 - percents[0];
 					
 					// get the colors
 					for (var i = 0; i < colors.length; i++) {
 						colors[i] = pieData[i].color;
-						$("#colormean").append("<div class=\"color\" style=\"background:" + colors[i] + "\">" + colorText[i] + "</div>"); //+ "<div class=\"colortext\">" + colorText[i] + "</div>");
-						//$("#image_content").append("<div class=\"limit_size\"><img src=\"images/" + colorText[i] + "\" /></div>");
+						$("#colormean").append("<div class=\"color\" style=\"background:" + colors[i] + "\">" + colorText[i] + " " + percents[i] + "%</div>");
 					}
 
 					// show pie graph
