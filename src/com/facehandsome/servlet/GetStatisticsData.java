@@ -54,6 +54,21 @@ public class GetStatisticsData extends HttpServlet {
 		ArrayList<PieGraph> pieData = MongoDBUtil.findHandsomeProportion();
 		BarGraph barData = MongoDBUtil.findRankedPics();
 		
+		/* debug
+		ArrayList<Dataset> temp = barData.getDatasets();
+		Dataset datset = new Dataset();
+		ArrayList<Integer> data = new ArrayList<Integer>();
+		data.add(50);
+		data.add(10);
+		data.add(5);
+		data.add(7);
+		data.add(6);
+		datset = temp.get(0);
+		datset.setData(data);
+		temp.remove(0);
+		temp.add(datset);
+		barData.setDatasets(temp);*/
+		
 		String[] res = new String[2];
 		
 		Gson gson = new Gson();

@@ -60,6 +60,7 @@
 		$(function(){
 			$.post("getstatisticsdata", function(data) {
 				var json = $.parseJSON(data);
+				
 				pieData = $.parseJSON(json[0]);
 				barData = $.parseJSON(json[1]);
 				
