@@ -84,6 +84,12 @@ public final class MongoDBUtil {
     		String[] resSet = dbCursor.next().get("_id").toString().split("\\^\\&\\^");
     		photo.setPath(resSet[1]);
     		photo.setHandsome(Boolean.valueOf(resSet[2]));
+
+    		if (photo.isHandsome()) {
+    			photo.setDescirption("handsome");
+    		} else {
+    			photo.setDescirption("not handsome");
+    		}
     		result.add(photo);
     	}
     	return result;

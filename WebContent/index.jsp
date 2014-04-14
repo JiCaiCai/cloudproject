@@ -1,3 +1,4 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"><head>
 	
@@ -47,7 +48,11 @@
     <div id="body" class="light">
     	<div id="content" class="show">
         	<h3>Project Demo</h3>
+<<<<<<< HEAD:WebContent/index.html
             <div class="article_new"><a href="statistics.html">See something interesting!</a></div>
+=======
+            <div class="article_new"><a href="statistics.jsp">See something interesting!</a></div>
+>>>>>>> c5d4865c045abc137f27de4a5482e58f5e70ab9d:WebContent/index.jsp
             <div class="demo">
             	<form id="uploadForm" target="frm_dealer" action="uploadimage" method="post" enctype="multipart/form-data">
                     <div class="upload_box">
@@ -87,6 +92,10 @@
     </div>
 </div>
 <div id="footer">
+<<<<<<< HEAD:WebContent/index.html
+=======
+	<%@ include file="hostname.jsp" %><br>
+>>>>>>> c5d4865c045abc137f27de4a5482e58f5e70ab9d:WebContent/index.jsp
     Designed by Lin Ji, Niu ZhiXiong, Xu ZuLiang<br>
     Powered by <a href="http://www.cs.hku.hk/">HKUCS Cluster</a><br>
     Copyright© HKU<br>    
@@ -167,9 +176,9 @@
 		    for (var i = 0; i < photos.length; i++) {
 		    	// image name, image path, image description
 		    	if (photos[i].name == null) {
-		    		addImageItem("Lazy Owner", photos[i].path, "All men must die!");
+		    		addImageItem(photos[i].path, photos[i].path, photos[i].descirption);
 		    	} else {
-		    		addImageItem(photos[i].name, photos[i].path, "All man will die!");
+		    		addImageItem(photos[i].name, photos[i].path, photos[i].descirption);
 		    	}
 		    	
 		    	if (photos[i].handsome == true) HandsomeNum += 1;
@@ -184,7 +193,7 @@
 	}
 	
 	function addImageItem(imageName, imagePath, imageDes) {
-		var imageHtml = "<div class=\"ca-item\"><div class=\"ca-item-main\"><div class=\"ca-icon\"><img src=\"images/" + imagePath + "\" /></div><h3>"+ imageName +"</h3><h4><span class=\"ca-quote\">&ldquo;</span><span>" + imageDes + "</span></h4></div></div>";
+		var imageHtml = "<div class=\"ca-item\"><div class=\"ca-item-main\"><div class=\"ca-icon\"><img src=\"ximages/" + imagePath + "\" /></div><h3>"+ imageName +"</h3><h4><span class=\"ca-quote\">&ldquo;</span><span>" + imageDes + "</span></h4></div></div>";
 		$("#ca-wrapper").append(imageHtml);
 	}
 	
